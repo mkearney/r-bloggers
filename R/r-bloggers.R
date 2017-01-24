@@ -35,16 +35,24 @@ previous <- readRDS(newest)
 
 ## post tweet
 if (!identical(links, previous)) {
+    token <- readRDS("/Users/mwk/rtw.rds")
     url2tweet <- links[!links %in% previous]
     for (i in url2tweet) {
         txt2tweet <- i %>%
             gsub("(^https://www.r-bloggers.com/)|(/)",
                  "", .) %>%
             gsub("-", " ", .)
-        post_tweet(paste0(txt2tweet, " ", i))
+        if (nchar(txt2tweet) > 40) {
+            txt2tweet <- strsplit(txt2tweet, " ")[[1]]
+            txt2tweet <- txt2tweet %>%
+                .[nchar(.) %>% cumsum() < 40]
+            txt2tweet <- paste(txt2tweet, collapse = " ")
+            txt2tweet <- paste0(txt2tweet, "...")
+        }
+        post_tweet(paste0(txt2tweet, " ", i),
+                   token = token)
     }
 }
-
 ## save new file
 spacetime <- paste0(format(
     Sys.time(), "%m-%d-%y-%H-%M",
