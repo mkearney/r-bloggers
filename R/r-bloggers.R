@@ -50,6 +50,13 @@ if (!all(links %in% previous)) {
                 .[nchar(.) %>% cumsum() < 40]
             txt2tweet <- paste(txt2tweet, collapse = " ")
             txt2tweet <- paste0(txt2tweet, "...")
+            if ((nchar(txt2tweet) + nchar(i) + 12) > 140) {
+                txt2tweet <- strsplit(txt2tweet, " ")[[1]]
+                txt2tweet <- txt2tweet %>%
+                    .[nchar(.) %>% cumsum() < (127 - nchar(i))]
+                txt2tweet <- paste(txt2tweet, collapse = " ")
+                txt2tweet <- paste0(txt2tweet, "...")
+            }
         }
         post_tweet(paste0(txt2tweet, " #rstats ", i),
                    token = token)
