@@ -34,7 +34,7 @@ newest <- file.path("/Users/mwk/r/r-bloggers/data", newest)
 previous <- readRDS(newest)
 
 ## post tweet
-if (!identical(links, previous)) {
+if (!all(links %in% previous)) {
     token <- readRDS("/Users/mwk/rtw.rds")
     url2tweet <- links[!links %in% previous]
     for (i in url2tweet) {
@@ -49,7 +49,7 @@ if (!identical(links, previous)) {
             txt2tweet <- paste(txt2tweet, collapse = " ")
             txt2tweet <- paste0(txt2tweet, "...")
         }
-        post_tweet(paste0(txt2tweet, " ", i),
+        post_tweet(paste0(txt2tweet, " #rstats ", i),
                    token = token)
     }
 }
