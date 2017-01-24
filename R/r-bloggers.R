@@ -45,6 +45,8 @@ if (!all(links %in% previous)) {
         if (nchar(txt2tweet) > 40) {
             txt2tweet <- strsplit(txt2tweet, " ")[[1]]
             txt2tweet <- txt2tweet %>%
+                .[suppressWarnings(is.na(as.numeric(txt2tweet)))]
+            txt2tweet <- txt2tweet %>%
                 .[nchar(.) %>% cumsum() < 40]
             txt2tweet <- paste(txt2tweet, collapse = " ")
             txt2tweet <- paste0(txt2tweet, "...")
