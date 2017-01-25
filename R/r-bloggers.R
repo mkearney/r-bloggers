@@ -63,7 +63,6 @@ if (!all(links %in% rblinks)) {
         pt <- post_tweet(
             paste0(txt2tweet, " #rstats ", i),
             token = token)
-        pt <- httr::GET("http://mikewk.com")
         if (isTRUE(pt$all_headers[[1]][["status"]] == 200)) {
             yesno[i] <- TRUE
         } else {
